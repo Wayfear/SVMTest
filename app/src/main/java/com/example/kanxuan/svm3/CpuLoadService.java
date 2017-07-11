@@ -82,8 +82,6 @@ public class CpuLoadService extends Service {
     public void onDestroy() {
         closeFile();
         super.onDestroy();
-
-
     }
 
     OutputStreamWriter writer;
@@ -91,6 +89,7 @@ public class CpuLoadService extends Service {
     private void openFile() {
         try {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "record_cpu_load/" + filename);
+            Log.e("TAG", Environment.DIRECTORY_DOWNLOADS + "record_cpu_load/" + filename);
             file.getParentFile().mkdirs();
             writer = new OutputStreamWriter(new FileOutputStream(file));
         } catch (Exception e) {

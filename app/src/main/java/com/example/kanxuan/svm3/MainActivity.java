@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 //    private native void testLog(String logThis);
 //   private native double predict(double[][] arr);
 
-    public native double predict(double[][] sensor_data, String model_path);
+
 
     public static final String LOG_TAG = "AndroidLibSvm";
 
@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Intent cpuIntent = new Intent(this, CpuLoadService.class);
+        final Intent sensorIntent = new Intent(this, SensorService.class);
         systemPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
         appFolderPath = systemPath+"libsvm/";
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
@@ -60,32 +61,30 @@ public class MainActivity extends Activity {
                     public void onClick(View v) {
 
 
-                        try
-                        {
-                            writer.write(String.valueOf(System.currentTimeMillis())+"\n");
-                        }
-                        catch (Exception e){
-
-                        }
-
-                        double[][] d = {{1, 1, 1}, {2, 2, 2}};
-                        MotionPredict predict = new MotionPredict();
-                        String path = systemPath + "libsvm/model";
-                        double a = predict(d, path);
 
 
-
-
-
-
-
-                        try
-                        {
-                            writer.write(String.valueOf(System.currentTimeMillis())+"\n");
-                        }
-                        catch (Exception e){
-
-                        }
+//                        try
+//                        {
+//                            writer.write(String.valueOf(System.currentTimeMillis())+"\n");
+//                        }
+//                        catch (Exception e){
+//
+//                        }
+//
+//
+//
+//
+//
+//
+//
+//
+//                        try
+//                        {
+//                            writer.write(String.valueOf(System.currentTimeMillis())+"\n");
+//                        }
+//                        catch (Exception e){
+//
+//                        }
 
 
                     }
@@ -96,7 +95,9 @@ public class MainActivity extends Activity {
                 button1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        startService(sensorIntent);
                         startService(cpuIntent);
+
                         openFile();
 
                     }
@@ -107,7 +108,9 @@ public class MainActivity extends Activity {
                 button2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        stopService(sensorIntent);
                         stopService(cpuIntent);
+
                         closeFile();
 
                     }
@@ -220,8 +223,6 @@ public class MainActivity extends Activity {
 
 
 
-    static {
-        System.loadLibrary("motion");
-    }
+
 
 }
